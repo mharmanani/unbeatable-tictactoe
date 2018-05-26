@@ -25,8 +25,6 @@ public class DimensionChoiceGUI {
 		JButton confirm = new JButton("Confirm");
 		
 		ask.add(question);
-		ask.add(mField);
-		ask.add(byLabel);
 		ask.add(nField);
 		
 		ask.setLayout(new GridLayout(3,1));
