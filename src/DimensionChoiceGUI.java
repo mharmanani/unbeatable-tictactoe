@@ -21,9 +21,7 @@ public class DimensionChoiceGUI {
 		JPanel buttonPanel = new JPanel();
 		
 		JLabel question = new JLabel("Board dimensions: ");
-		JTextField mField = new JTextField(10);
 		JTextField nField = new JTextField(10);
-		JLabel byLabel = new JLabel("by");
 		JButton confirm = new JButton("Confirm");
 		
 		ask.add(question);
@@ -33,8 +31,6 @@ public class DimensionChoiceGUI {
 		
 		ask.setLayout(new GridLayout(3,1));
 		questPanel.add(question);
-		choicePanel.add(mField);
-		choicePanel.add(byLabel);
 		choicePanel.add(nField);
 		buttonPanel.add(confirm);
 		ask.add(questPanel); ask.add(choicePanel);
