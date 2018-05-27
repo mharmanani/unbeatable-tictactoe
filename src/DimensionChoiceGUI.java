@@ -4,16 +4,7 @@ import javax.swing.*;
 
 public class DimensionChoiceGUI {
 
-	public static void main(String[] args) {
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				createAndShowGUI();
-			}
-		});
-
-	}
-
-	public static void createAndShowGUI() {
+	public void createAndShowGUI() {
 		JFrame ask = new JFrame("Tic Tac Toe");
 		
 		JPanel questPanel = new JPanel();
