@@ -11,6 +11,8 @@ public class TicTacToeGUIController {
 	}
 	
 	public static void main(String[] args) {
+		
+			TicTacToeGUIController ttt = new TicTacToeGUIController();
 			
 			try {
 				UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
