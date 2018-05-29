@@ -124,6 +124,10 @@ public class BoardModel extends Observable {
 		return isDiagonalFilled(new String[1]) || anyColumn || anyRow;
 	}
 	
+	public boolean isFull() {
+		return (!this.isSolved() && (this.emptyCells().size() == 0)); 
+	}
+	
 	public String getWinner() {
 		String[] winner = new String[1];
 		if (isDiagonalFilled(winner))
