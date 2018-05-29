@@ -6,9 +6,9 @@ public class AIStrategy {
 	private String self;
 	private int reward;
 	
-	AIStrategy() {
-		player = "X";
-		self = "O";
+	AIStrategy(String ai, String plyr) {
+		player = plyr;
+		self = ai;
 		reward = 0;
 	}
 	
