@@ -10,6 +10,7 @@ import javax.swing.*;
 public class TicTacToeGUIController extends JFrame implements ActionListener {
 
 	private BoardModel board;
+	private AIStrategy AI;
 	private JButton[][] buttons;
 	private String player;
 	private String ai;
@@ -31,6 +32,7 @@ public class TicTacToeGUIController extends JFrame implements ActionListener {
 		}
 		
 		turns = 0;
+		AI = new AIStrategy(ai, player);
 		
 		this.getContentPane().setPreferredSize(new Dimension(500,500));
 		this.getContentPane().add(gridPanel, BorderLayout.CENTER);
