@@ -43,6 +43,8 @@ public class TicTacToeGUIController extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
+		System.out.println(this.board.emptyCells());
+		
 		int[] dim = new int []{-1,-1};
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j ++) {
@@ -54,6 +56,7 @@ public class TicTacToeGUIController extends JFrame implements ActionListener {
 		if (turns%2 == 0) {
 			JButton b = (JButton)e.getSource();
 			b.setEnabled(false);
+			b.setIcon(new ImageIcon("icns/icnX_2.png"));
 			board.makeMove("X", dim[0], dim[1]);
 			if (board.isSolved()) {
 				System.out.println("Solved");
