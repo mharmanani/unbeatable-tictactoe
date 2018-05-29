@@ -28,4 +28,8 @@ public class Symbol {
 	public boolean isEmpty() {
 		return this.getSymbol() == "_";
 	}
+	
+	public String toString() {
+		return this.symbol + "(" + this.pos[0] +", " + this.pos[1] + ")";
+	}
 }
