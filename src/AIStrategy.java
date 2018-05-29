@@ -24,10 +24,8 @@ public class AIStrategy {
 			ArrayList<Symbol> empty = board.emptyCells();
 			if (empty.size() == 0)
 				return 0;
-			
 		}
 		return 0;
-		
 	}
 	
 }
