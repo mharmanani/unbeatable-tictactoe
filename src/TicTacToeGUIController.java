@@ -62,8 +62,13 @@ public class TicTacToeGUIController extends JFrame implements ActionListener {
 				System.out.println("Solved");
 				this.dispose();
 			}
+			this.turns++;
 		}
 		
+		JButton b = this.buttons[2][2];
+		b.setEnabled(false);
+		b.setIcon(new ImageIcon("icns/icnCPU.png"));
+		board.makeMove("O", 2, 2);
 		this.turns++;
 	}
 }
