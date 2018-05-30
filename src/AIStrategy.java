@@ -1,44 +1,65 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class AIStrategy {
 	
 	private String player;
 	private String self;
-	private int reward;
 	
 	AIStrategy(String ai, String plyr) {
 		player = plyr;
 		self = ai;
-		reward = 0;
 	}
 	
-	public int minimax(String current, BoardModel board) {
+	public Reward minimax(String current, BoardModel board) {
 		
-		if (board.getWinner() == self) {
-			return 1;
-		}
+		ArrayList<Symbol> empty = board.emptyCells();
 		
-		else if (board.getWinner() == player) {
-			return -1;
-		}
+		if (board.getWinner() == self)
+			return new Reward(1);
+
+		else if (board.getWinner() == player)
+			return new Reward(-1);
 		
-		else {
-			ArrayList<Symbol> empty = board.emptyCells();
-			ArrayList<int[]> locations = new ArrayList<int[]>();
-			if (empty.size() == 0)
-				return 0;
-			for (Symbol sym : empty) {
-				locations.add(sym.getPos());
-				board.makeMove(current, sym.getPos()[0], sym.getPos()[1]);
-				if (current == self) {
-					reward = minimax(self, board);
-				} else {
-					reward = minimax(player, board);
-				}
-				board.makeMove("_", sym.getPos()[0], sym.getPos()[1]);				
+		else if (empty.size() == 0)
+			return new Reward(0);
+		
+		ArrayList<Reward> locations = new ArrayList<Reward>();
+		for (Symbol sym : empty) {
+			Reward currMove = new Reward(sym);
+			board.makeMove(current, sym.getPos()[0], sym.getPos()[1]);
+			if (current == self) {
+				Reward r = minimax(player, board);
+				currMove.setReward(r.getReward());
+		
+			} else {
+				Reward r = minimax(self, board);
+				currMove.setReward(r.getReward());
 			}
+			board.setEmpty(sym.getPos()[0], sym.getPos()[1]);
+			locations.add(currMove);
 		}
-		return 0;
+			
+		Reward bestScore = new Reward(5); bestScore.setMove(new Symbol(2, 2));
+		if (current == self) {
+			bestScore = new Reward(Integer.MIN_VALUE);
+			for (int i = 0; i < locations.size(); i ++) {
+				if (locations.get(i).getReward() > bestScore.getReward()) {
+					bestScore = locations.get(i);
+					System.out.println(bestScore.getMove());
+				}
+			}
+			return bestScore;
+		} else {
+			bestScore = new Reward(Integer.MAX_VALUE);
+			for (int i = 0; i < locations.size(); i ++) {
+				if (locations.get(i).getReward() < bestScore.getReward()) {
+					bestScore = locations.get(i);
+					System.out.println(bestScore.getMove());
+				}
+			}
+			return bestScore;
+		}
 	}
 	
 }
