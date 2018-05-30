@@ -1,9 +1,10 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Random;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -14,13 +15,17 @@ public class TicTacToeGUIController extends JFrame implements ActionListener {
 	private JButton[][] buttons;
 	private String player;
 	private String ai;
-	private int turns;
+	private String turn;
 
 	public TicTacToeGUIController() {
 		super("Unbeatable Tic Tac Toe");
 		JPanel gridPanel = new JPanel(new GridLayout(3,3));
 		player = "X";
 		ai = "O";
+		String[] choices = new String[] {ai, player};
+		int random = (int)(Math.random() * 2);
+		turn  = choices[random];
+		System.out.println("It's " + turn + "'s turn");
 		board = new BoardModel(3,3);
 		buttons = new JButton[3][3];
 		for (int i = 0; i < 3; i++) {
@@ -31,7 +36,6 @@ public class TicTacToeGUIController extends JFrame implements ActionListener {
 			}
 		}
 		
-		turns = 0;
 		AI = new AIStrategy(ai, player);
 		
 		this.getContentPane().setPreferredSize(new Dimension(500,500));
@@ -40,6 +44,29 @@ public class TicTacToeGUIController extends JFrame implements ActionListener {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.pack();
+		
+		if (turn == ai) {
+			JOptionPane.showMessageDialog(this, "The computer will have the first turn.");
+			ArrayList<Symbol> empty = board.emptyCells();
+			int i = (int)(Math.random() * empty.size());
+			int[] aiMove = empty.get(i).getPos();
+			JButton b = this.buttons[aiMove[0]][aiMove[1]];
+			b.setEnabled(false);
+			b.setBackground(new Color(0, 100, 200));
+			b.setIcon(new ImageIcon("icns/icnCPU.png"));
+			board.makeMove(ai, aiMove[0], aiMove[1]);
+			turn = player;
+		} else {
+			JOptionPane.showMessageDialog(this, "The first turn is yours.");
+		}
+	}
+	
+	public void freeze() {
+		for (JButton[] bArray : this.buttons) {
+			for (JButton b : bArray) {
+				b.setEnabled(false);
+			}
+		}
 	}
 
 	@Override
@@ -55,22 +82,43 @@ public class TicTacToeGUIController extends JFrame implements ActionListener {
 			}
 		}
 		
-		if (turns%2 == 0) {
+		if (turn == player) {
 			JButton b = (JButton)e.getSource();
 			b.setEnabled(false);
+			b.setBackground(new Color(0, 200, 100));
 			b.setIcon(new ImageIcon("icns/icnX_2.png"));
-			board.makeMove("X", dim[0], dim[1]);
+			board.makeMove(player, dim[0], dim[1]);
 			if (board.isSolved()) {
 				System.out.println("Solved");
-				this.dispose();
+				//this.dispose();
 			}
-			this.turns++;
+			turn = ai;
 		}
-		
-		JButton b = this.buttons[2][2];
+
+		Reward reward = AI.minimax(turn, board);
+		if (reward.getMove() == null) {
+			JOptionPane.showMessageDialog(this, "It's a draw!");
+			this.freeze();
+			return;
+		}
+		System.out.println(reward.getReward());
+		System.out.println(reward.getMove());
+		int[] aiMove = reward.getMove().getPos();
+		JButton b = this.buttons[aiMove[0]][aiMove[1]];
 		b.setEnabled(false);
+		b.setBackground(new Color(0, 100, 200));
 		b.setIcon(new ImageIcon("icns/icnCPU.png"));
-		board.makeMove("O", 2, 2);
-		this.turns++;
+		board.makeMove(ai, aiMove[0], aiMove[1]);
+		turn = player;
+		
+		if (board.isSolved()) {
+			JOptionPane.showMessageDialog(this, "" + board.getWinner() + " has won.");
+			this.freeze();
+			return;
+		} else if (board.isFull()) {
+			JOptionPane.showMessageDialog(this, "It's a draw!");
+			this.freeze();
+			return;
+		}
 	}
 }
