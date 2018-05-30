@@ -42,6 +42,12 @@ public class BoardModel extends Observable {
 		}
 	}
 	
+	public void setEmpty(int x, int y) {
+		if (!this.grid[x][y].isEmpty()) {
+			this.grid[x][y].setSymbol("_");
+		}
+	}
+	
 	public boolean isRowFilled(int x, String[] winner) {
 		Symbol[] row = this.grid[x];
 		String[] symbols = new String[]{"_"};
@@ -121,7 +127,15 @@ public class BoardModel extends Observable {
 				anyColumn = true;
 			}
 		}
-		return isDiagonalFilled(new String[1]) || anyColumn || anyRow;
+		
+		boolean leftDiagonal = false;
+		if (this.grid[0][2].getSymbol() == this.grid[1][1].getSymbol()) {
+			if (this.grid[1][1].getSymbol() == this.grid[2][0].getSymbol()) {
+				if (!this.grid[2][0].isEmpty())
+					leftDiagonal = true;
+			}
+		}
+		return isDiagonalFilled(new String[1]) || anyColumn || anyRow || leftDiagonal;
 	}
 	
 	public boolean isFull() {
@@ -147,6 +161,14 @@ public class BoardModel extends Observable {
 				return winner[0];
 			}
 		}
+		
+		if (this.grid[0][2].getSymbol() == this.grid[1][1].getSymbol()) {
+			if (this.grid[1][1].getSymbol() == this.grid[2][0].getSymbol()) {
+				if (!this.grid[2][0].isEmpty())
+					return this.grid[2][0].getSymbol();
+			}
+		}
+		
 		return null;
 	}
 	

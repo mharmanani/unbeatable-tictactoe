@@ -3,7 +3,7 @@ public class Symbol {
 	private String symbol;
 	private int[] pos;
 	
-	Symbol(int m, int n) {
+	public Symbol(int m, int n) {
 		this.symbol = "_";
 		this.pos = new int[] {m, n};
 	}
