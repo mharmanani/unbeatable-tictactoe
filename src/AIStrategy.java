@@ -40,13 +40,12 @@ public class AIStrategy {
 			locations.add(currMove);
 		}
 			
-		Reward bestScore = new Reward(5); bestScore.setMove(new Symbol(2, 2));
+		Reward bestScore;
 		if (current == self) {
 			bestScore = new Reward(Integer.MIN_VALUE);
 			for (int i = 0; i < locations.size(); i ++) {
 				if (locations.get(i).getReward() > bestScore.getReward()) {
 					bestScore = locations.get(i);
-					System.out.println(bestScore.getMove());
 				}
 			}
 			return bestScore;
@@ -55,7 +54,6 @@ public class AIStrategy {
 			for (int i = 0; i < locations.size(); i ++) {
 				if (locations.get(i).getReward() < bestScore.getReward()) {
 					bestScore = locations.get(i);
-					System.out.println(bestScore.getMove());
 				}
 			}
 			return bestScore;
