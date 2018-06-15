@@ -52,8 +52,8 @@ public class TicTacToeGUIController extends JFrame implements ActionListener {
 			int[] aiMove = empty.get(i).getPos();
 			JButton b = this.buttons[aiMove[0]][aiMove[1]];
 			b.setEnabled(false);
-			b.setBackground(new Color(0, 100, 200));
-			b.setIcon(new ImageIcon("icns/icnCPU.png"));
+			b.setBackground(new Color(48, 48, 48));
+			//b.setIcon(new ImageIcon("icns/icnCPU.png"));
 			board.makeMove(ai, aiMove[0], aiMove[1]);
 			turn = player;
 		} else {
@@ -72,7 +72,7 @@ public class TicTacToeGUIController extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-		System.out.println(this.board.emptyCells());
+		//System.out.println(this.board.emptyCells());
 		
 		int[] dim = new int []{-1,-1};
 		for (int i = 0; i < 3; i++) {
@@ -85,8 +85,8 @@ public class TicTacToeGUIController extends JFrame implements ActionListener {
 		if (turn == player) {
 			JButton b = (JButton)e.getSource();
 			b.setEnabled(false);
-			b.setBackground(new Color(0, 200, 100));
-			b.setIcon(new ImageIcon("icns/icnX_2.png"));
+			b.setBackground(new Color(0, 188, 246));
+			//b.setIcon(new ImageIcon("icns/icnX_2.png"));
 			board.makeMove(player, dim[0], dim[1]);
 			if (board.isSolved()) {
 				System.out.println("Solved");
@@ -101,20 +101,26 @@ public class TicTacToeGUIController extends JFrame implements ActionListener {
 			this.freeze();
 			return;
 		}
-		System.out.println(reward.getReward());
-		System.out.println(reward.getMove());
+		//System.out.println(reward.getReward());
+		//System.out.println(reward.getMove());
 		int[] aiMove = reward.getMove().getPos();
 		JButton b = this.buttons[aiMove[0]][aiMove[1]];
 		b.setEnabled(false);
-		b.setBackground(new Color(0, 100, 200));
-		b.setIcon(new ImageIcon("icns/icnCPU.png"));
+		b.setBackground(new Color(48, 48, 48));
+		//b.setIcon(new ImageIcon("icns/icnCPU.png"));
 		board.makeMove(ai, aiMove[0], aiMove[1]);
 		turn = player;
 		
 		if (board.isSolved()) {
-			JOptionPane.showMessageDialog(this, "" + board.getWinner() + " has won.");
-			this.freeze();
-			return;
+			if (board.getWinner() == ai) {
+				JOptionPane.showMessageDialog(this, "You have lost.");
+				this.freeze();
+				return;
+			} else {
+				JOptionPane.showMessageDialog(this, "You have won!");
+				this.freeze();
+				return;
+			}
 		} else if (board.isFull()) {
 			JOptionPane.showMessageDialog(this, "It's a draw!");
 			this.freeze();
